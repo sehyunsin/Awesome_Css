@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시각적 CSS 쇼케이스</title>
+    <style>
+        /* 모든 요소의 마진과 패딩을 0으로 설정하고, 
+           box-sizing을 border-box로 설정하여 요소의 크기 계산을 더 쉽게 합니다. */
+        * {margin: 0;padding: 0;box-sizing: border-box;}
+
+        /* body에 최소 높이를 설정하여 스크롤 가능하게 만들고, 배경을 검정색으로 설정합니다. 가로 스크롤을 방지합니다. */
+        body {min-height: 500vh;background: #000;overflow-x: hidden;}
+
+        /* 우주 장면을 나타내는 컨테이너입니다.화면 전체를 차지하도록 설정하고, 내부 요소들을 중앙에 배치합니다. */
+        .scene {position: fixed;top: 0;left: 0;width: 100%;height: 100vh;display: flex;justify-content: center;align-items: center;}
+
+        /* 태양을 나타내는 요소입니다.원형 그라데이션으로 태양의 모습을 표현하고,박스 그림자로 빛나는 효과를 줍니다.
+           pulse 애니메이션을 적용하여 크기가 변하도록 합니다. */
+        .sun {width: 200px;height: 200px;background: radial-gradient(circle, #ff8a00, #ff4500);border-radius: 50%;box-shadow: 0 0 100px #ff4500;animation: pulse 4s infinite alternate;}
+
+        /* 태양의 크기를 변화시키는 애니메이션입니다. */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        /* 행성의 궤도를 나타내는 요소입니다.
+           원형으로 만들고 테두리만 표시합니다. */
+        .orbit {position: absolute;border: 2px solid rgba(255, 255, 255, 0.1);border-radius: 50%;}
+
+        /* 행성을 나타내는 요소입니다.
+           원형으로 만듭니다. */
+        .planet {position: absolute;border-radius: 50%;}
+
+        /* 각 궤도와 행성의 크기와 위치를 설정합니다. */
+        #orbit1 {width: 300px;height: 300px;}
+        #planet1 {width: 20px;height: 20px;background: #3498db; animation: orbit 10s linear infinite;}
+        #orbit2 {width: 500px;height: 500px;}
+        #planet2 {width: 30px;height: 30px;background: #e74c3c;animation: orbit 20s linear infinite;}
+        #orbit3 {width: 700px;height: 700px;}
+        #planet3 {width: 40px;height: 40px;background: #2ecc71;animation: orbit 30s linear infinite;}
+
+        /* 행성이 궤도를 도는 애니메이션입니다. */
+        @keyframes orbit {
+            0% { transform: rotate(0deg) translateX(150px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+        }
+
+        /* 별들을 담는 컨테이너입니다. */
+        .stars {position: fixed;top: 0;left: 0;width: 100%;height: 100%;pointer-events: none;}
+
+        /* 개별 별을 나타내는 요소입니다. */
+        .star {position: absolute;width: 2px;height: 2px;background: #fff;border-radius: 50%;animation: twinkle 5s infinite;}
+
+        /* 별이 반짝이는 애니메이션입니다. */
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        /* 혜성을 나타내는 요소입니다. */
+        .comet {position: fixed;top: -10px;left: -10px;width: 5px;height: 5px;background: #fff;border-radius: 50%;box-shadow: 0 0 20px 5px #fff;animation: comet 10s linear infinite;}
+
+        /* 혜성이 움직이는 애니메이션입니다. */
+        @keyframes comet {
+            0% { transform: translate(-10px, -10px) rotate(45deg); }
+            100% { transform: translate(120vw, 120vh) rotate(45deg); }
+        }
+
+        /* 오로라를 나타내는 요소입니다. */
+        .aurora {position: fixed;bottom: 0;left: 0;width: 100%;height: 200px;background: linear-gradient(0deg, rgba(97, 255, 238, 0.3) 0%, rgba(97, 255, 238, 0) 100%);filter: blur(20px);animation: aurora 20s linear infinite;}
+
+        /* 오로라가 움직이는 애니메이션입니다. */
+        @keyframes aurora {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* 유성을 나타내는 요소입니다. */
+        .meteor {position: fixed;width: 2px;height: 90px;background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #ffffff 100%);animation: meteor 2s linear infinite;}
+
+        /* 유성이 움직이는 애니메이션입니다. */
+        @keyframes meteor {
+            0% { transform: translateY(-100vh) translateX(100vw) rotate(45deg); }
+            100% { transform: translateY(100vh) translateX(-100vw) rotate(45deg); }
+        }
+
+        /* 모바일 기기를 위한 반응형 스타일 */
+        @media (max-width: 768px) {
+            .sun {
+                width: 100px;
+                height: 100px;
+            }
+
+            #orbit1 {
+                width: 150px;
+                height: 150px;
+            }
+
+            #orbit2 {
+                width: 250px;
+                height: 250px;
+            }
+
+            #orbit3 {
+                width: 350px;
+                height: 350px;
+            }
+
+            #planet1, #planet2, #planet3 {
+                width: 10px;
+                height: 10px;
+            }
+
+            @keyframes orbit {
+                0% { transform: rotate(0deg) translateX(75px) rotate(0deg); }
+                100% { transform: rotate(360deg) translateX(75px) rotate(-360deg); }
+            }
+
+            .aurora {
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scene">
+        <div class="sun"></div>
+        <div id="orbit1" class="orbit">
+            <div id="planet1" class="planet"></div>
+        </div>
+        <div id="orbit2" class="orbit">
+            <div id="planet2" class="planet"></div>
+        </div>
+        <div id="orbit3" class="orbit">
+            <div id="planet3" class="planet"></div>
+        </div>
+    </div>
+
+    <div class="stars"></div>
+    <div class="comet"></div>
+    <div class="aurora"></div>
+
+    <script>
+        // 별을 생성하는 함수입니다.
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // 유성을 생성하는 함수입니다.
+        function createMeteor() {
+            const meteor = document.createElement('div');
+            meteor.classList.add('meteor');
+            meteor.style.left = `${Math.random() * 100}%`;
+            meteor.style.animationDuration = `${Math.random() * 1 + 1}s`;
+            document.body.appendChild(meteor);
+
+            // 2초 후에 유성을 제거합니다.
+            setTimeout(() => {
+                meteor.remove();
+            }, 2000);
+        }
+
+        // 3초마다 유성을 생성합니다.
+        setInterval(createMeteor, 3000);
+
+        // 스크롤 이벤트를 처리하는 함수입니다.
+        function handleScroll() {
+            const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            
+            // 스크롤에 따라 배경색을 변경합니다.
+            document.body.style.background = `linear-gradient(180deg, #000000 ${scrollPercentage}%, #0a4470 100%)`;
+            
+            // 스크롤에 따라 태양의 위치와 크기를 변경합니다.
+            const sun = document.querySelector('.sun');
+            sun.style.transform = `translateY(${scrollPercentage}vh) scale(${1 + scrollPercentage/100})`;
+            
+            // 스크롤에 따라 궤도의 회전을 변경합니다.
+            const orbits = document.querySelectorAll('.orbit');
+            orbits.forEach((orbit, index) => {
+                orbit.style.transform = `rotate(${scrollPercentage * (index + 1)}deg)`;
+            });
+        }
+
+        // 페이지 로드 시 별을 생성하고 스크롤 이벤트 리스너를 추가합니다.
+        window.addEventListener('load', () => {
+            createStars();
+            window.addEventListener('scroll', handleScroll);
+        });
+    </script>
+</body>
+</html>
